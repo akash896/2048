@@ -1,5 +1,7 @@
 package Game;
 
+import cli.controller.CLIController;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -22,7 +24,7 @@ public class MainController {
                 System.out.println("enter the dimension");
                 n = sc.nextInt();
                 Game2048 ob = new Game2048(n);
-                new BeginGame().beginGame(ob, credentials);
+                new CLIController().beginGame(ob, credentials);
                 break;
         }
     }

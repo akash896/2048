@@ -41,6 +41,11 @@ public class GameModel implements Serializable {
         this.status = status;
     }
 
+    public void initialiseGameModel(int n)  {
+        matrix = new int[n][n];
+        status = 0;
+    }
+
     @Override
     public String toString() {
         return "GameModel{" +
