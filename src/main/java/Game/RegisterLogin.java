@@ -7,24 +7,39 @@ import conection.MongoConnection;
 import java.util.Scanner;
 
 public class RegisterLogin {
+    private String username;
+    private String password;
 
-    String username;
-    String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     DBCollection coll;
     public RegisterLogin(){
         this.username = "";
         this.password = "";
-
     }
 
-    public void register() {
+    public void register(DBCollection coll) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the username ");
-        String username = sc.next();
-
-        DBCollection coll = new MongoConnection().loadCollection("login");
+        setUsername(sc.next());
+        //DBCollection coll = new MongoConnection().loadCollection("login");
         BasicDBObject query = new BasicDBObject();
-        query.put("username", username);
+        query.put("username", getUsername());
         DBCursor cursor = coll.find(query);
         //DBCursor cursor = coll.find();
         /*int index = 1;
@@ -35,11 +50,11 @@ public class RegisterLogin {
         }*/
         if(cursor.size()!=0) {
             System.out.println("Enter some other username as this username is already in use ");
-            register();
+            register(coll);
         }
         else{
             System.out.println("Enter the password ");
-            String password = sc.next();
+            setPassword(sc.next());
             String progress ="";
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -54,31 +69,29 @@ public class RegisterLogin {
         System.out.println("\n Now Login using your username and password ");
     }
 
-    public RegisterLogin login(RegisterLogin credentials){
-        DBCollection coll = new MongoConnection().loadCollection("login");
+    public RegisterLogin login(RegisterLogin credentials, DBCollection coll){
+      //  DBCollection coll = new MongoConnection().loadCollection("login");
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the username ");
-        String username = sc.next();
+        setUsername(sc.next());
         BasicDBObject query = new BasicDBObject();
-        query.put("username", username);
-        credentials.username = username;
+        query.put("username", getUsername());
         DBCursor cursor = coll.find(query);
         if(cursor.size()==1) {
             System.out.println("Enter the password ");
-            String password = sc.next();
-            credentials.password = password;
+            setPassword(sc.next());
             DBObject value = cursor.next();
             String p = value.get("password").toString();
-            if(p.equals(password)) {
+            if(p.equals(getPassword())) {
                 System.out.println("User successfully logged in ");
                 return credentials;
             }
             else
-                login(credentials);
+                login(credentials, coll);
         }
         else{
             System.out.println("Invalid username ");
-            login(credentials);
+            login(credentials, coll);
         }
         return credentials;
     }
