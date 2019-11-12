@@ -5,6 +5,6 @@ import com.mongodb.client.MongoDatabase;
 
 public interface Connect {
 
-    public DB createConnection();
+    public void createConnection(String databasename);
 
 }

@@ -1,4 +1,4 @@
-package game;
+package Game;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -6,15 +6,13 @@ import java.util.Arrays;
 public class GameModel implements Serializable {
     private int matrix[][];
     private int n;
-    private int status;
 
     public GameModel() {
     }
 
-    public GameModel(int[][] matrix, int n, int status) {
+    public GameModel(int[][] matrix, int n) {
         this.matrix = matrix;
         this.n = n;
-        this.status = status;
     }
 
     public int[][] getMatrix() {
@@ -33,20 +31,12 @@ public class GameModel implements Serializable {
         this.n = n;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
     @Override
     public String toString() {
         return "GameModel{" +
                 "matrix=" + Arrays.toString(matrix) +
                 ", n=" + n +
-                ", status=" + status +
                 '}';
     }
-}
+    }

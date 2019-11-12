@@ -1,19 +1,12 @@
 package Game;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import conection.MongoConnection;
-import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import java.util.Scanner;
 
 public class BeginGame {
 
-    public static void beginGame(Game2048 ob, RegisterLogin credentials){
+    public static void beginGame(Game2048 ob, RegisterLogin credentials, DBCollection coll){
         Scanner scanner = new Scanner(System.in);
         int i=1;
         while(i==1) {
@@ -21,29 +14,29 @@ public class BeginGame {
             int ch = scanner.nextInt();
             switch (ch) {
                 case 4:
-                    ob = ob.left(ob);
-                    ob.display(ob);
-                    ob.checkFull(ob);
+                    ob.grid = ob.left(ob.grid);
+                    ob.display(ob.grid);
+                    ob.checkFull(ob.grid);
                     break;
                 case 6:
-                    ob = ob.right(ob);
-                    ob.display(ob);
-                    ob.checkFull(ob);
+                    ob.grid = ob.right(ob.grid);
+                    ob.display(ob.grid);
+                    ob.checkFull(ob.grid);
                     break;
                 case 8:
-                    ob = ob.up(ob);
-                    ob.display(ob);
-                    ob.checkFull(ob);
+                    ob.grid = ob.up(ob.grid);
+                    ob.display(ob.grid);
+                    ob.checkFull(ob.grid);
                     break;
                 case 2:
-                    ob = ob.down(ob);
-                    ob.display(ob);
-                    ob.checkFull(ob);
+                    ob.grid = ob.down(ob.grid);
+                    ob.display(ob.grid);
+                    ob.checkFull(ob.grid);
                     break;
-                case 1: ob.saveGame(ob, credentials.username, credentials.password);
+                case 1: ob.saveGame(ob.grid, credentials.getUsername(), credentials.getPassword(), coll);
 
                     break;
-                case 3: ob = ob.loadGame(ob, credentials.username);
+                case 3: ob.grid = ob.loadGame(ob.grid, credentials.getUsername(), coll);
                 break;
                 default:
                     System.out.println("Wrong input ");
@@ -51,6 +44,4 @@ public class BeginGame {
             }
         }
     }
-
-
 }
